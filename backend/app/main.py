@@ -1,9 +1,21 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from .schemas import PredictRequest, PredictResponse
 from .services.predictor import predict_disaster
+from .config import get_settings
+
+settings = get_settings()
 
 app = FastAPI(title="Disaster Tweet Classifier API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[settings.frontend_origin],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/")
