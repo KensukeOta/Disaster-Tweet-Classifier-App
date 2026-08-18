@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-
 app = FastAPI(
     title="Disaster Tweet Classifier API",
     version="0.1.0",
