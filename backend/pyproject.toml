@@ -9,6 +9,9 @@ authors = [
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "fastapi[standard]>=0.141.1",
+    "numpy<2",
+    "torch==2.2.2",
+    "transformers==4.41.2",
 ]
 
 [dependency-groups]
