@@ -219,7 +219,14 @@
 						</span>
 					</div>
 
-					<div class="h-3 overflow-hidden rounded-full bg-slate-100">
+					<div
+						class="h-3 overflow-hidden rounded-full bg-slate-100"
+						role="progressbar"
+						aria-label="災害確率"
+						aria-valuemin="0"
+						aria-valuemax="100"
+						aria-valuenow={Math.round(result.probability * 100)}
+					>
 						<div
 							class="h-full rounded-full bg-slate-700 transition-all duration-500"
 							style:width={`${result.probability * 100}%`}
