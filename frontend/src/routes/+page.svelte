@@ -1,10 +1,12 @@
 <script lang="ts">
-	import { predictTweet, type PredictionResult } from '$lib/api/predict';
+	import { predictTweet, PredictionApiError, type PredictionResult } from '$lib/api/predict';
 
 	let text = $state('');
 	let result = $state<PredictionResult | null>(null);
 	let isLoading = $state(false);
 	let errorMessage = $state('');
+
+	const REQUEST_TIMEOUT_MS = 30_000;
 
 	const disasterExample = 'Forest fire near La Ronge Sask. Canada';
 
@@ -12,6 +14,10 @@
 
 	async function handleSubmit(event: SubmitEvent) {
 		event.preventDefault();
+
+		if (isLoading) {
+			return;
+		}
 
 		const trimmedText = text.trim();
 
@@ -27,13 +33,33 @@
 		errorMessage = '';
 		result = null;
 
+		const controller = new AbortController();
+
+		const timeoutId = window.setTimeout(() => {
+			controller.abort();
+		}, REQUEST_TIMEOUT_MS);
+
 		try {
-			result = await predictTweet(trimmedText);
+			result = await predictTweet(trimmedText, controller.signal);
 		} catch (error) {
 			console.error(error);
 
-			errorMessage = '判定中にエラーが発生しました。';
+			if (error instanceof DOMException && error.name === 'AbortError') {
+				errorMessage = '判定に時間がかかっています。しばらくしてからもう一度お試しください。';
+			} else if (error instanceof PredictionApiError) {
+				if (error.status === 422) {
+					errorMessage = '入力内容を確認してください。';
+				} else if (error.status >= 500) {
+					errorMessage = 'サーバーでエラーが発生しました。';
+				} else {
+					errorMessage = '判定リクエストに失敗しました。';
+				}
+			} else {
+				errorMessage = 'サーバーに接続できませんでした。';
+			}
 		} finally {
+			window.clearTimeout(timeoutId);
+
 			isLoading = false;
 		}
 	}
