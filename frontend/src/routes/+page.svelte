@@ -175,6 +175,7 @@
 
 		{#if result}
 			<section
+				aria-live="polite"
 				class="mt-6 rounded-2xl border bg-white p-6 shadow-sm sm:p-8"
 				class:border-red-200={result.prediction === 'disaster'}
 				class:border-emerald-200={result.prediction === 'not_disaster'}
