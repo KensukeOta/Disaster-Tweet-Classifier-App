@@ -243,6 +243,10 @@
 
 						<span> 100% </span>
 					</div>
+					<p class="mt-4 text-xs leading-5 text-slate-500">
+						災害確率が
+						{(result.threshold * 100).toFixed(0)}% 以上の場合、「災害ツイート」と判定します。
+					</p>
 				</div>
 			</section>
 		{/if}
