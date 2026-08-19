@@ -131,7 +131,7 @@
 						type="button"
 						onclick={() => setExample(disasterExample)}
 						disabled={isLoading}
-						class="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-700 transition hover:bg-slate-100 disabled:opacity-50"
+						class="cursor-pointer rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-700 transition hover:bg-slate-100 disabled:opacity-50"
 					>
 						災害例を入力
 					</button>
@@ -140,7 +140,7 @@
 						type="button"
 						onclick={() => setExample(nonDisasterExample)}
 						disabled={isLoading}
-						class="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-700 transition hover:bg-slate-100 disabled:opacity-50"
+						class="cursor-pointer rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-700 transition hover:bg-slate-100 disabled:opacity-50"
 					>
 						非災害例を入力
 					</button>
@@ -150,7 +150,7 @@
 					type="submit"
 					disabled={isLoading || text.trim().length === 0}
 					aria-busy={isLoading}
-					class="flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+					class="flex w-full cursor-pointer items-center justify-center rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-300"
 				>
 					{#if isLoading}
 						<span
@@ -257,6 +257,11 @@
 			<p class="mt-2 leading-6">
 				Kaggle「Natural Language Processing with Disaster Tweets」で学習した DistilBERTの5-Fold
 				Ensembleを使用しています。 5モデルの災害確率を平均し、 0.49を判定閾値として分類します。
+			</p>
+
+			<p class="mt-3 text-xs leading-5 text-slate-500">
+				※ この判定は機械学習モデルによる推定結果です。
+				実際の災害情報の確認には使用しないでください。
 			</p>
 		</section>
 	</div>
