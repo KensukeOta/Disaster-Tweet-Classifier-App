@@ -149,10 +149,12 @@
 				<button
 					type="submit"
 					disabled={isLoading || text.trim().length === 0}
+					aria-busy={isLoading}
 					class="flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-300"
 				>
 					{#if isLoading}
 						<span
+							aria-hidden="true"
 							class="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
 						></span>
 
