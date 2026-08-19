@@ -64,6 +64,11 @@
 		}
 	}
 
+	function handleInput() {
+		result = null;
+		errorMessage = '';
+	}
+
 	function setExample(example: string) {
 		text = example;
 		result = null;
@@ -104,6 +109,7 @@
 					<textarea
 						id="tweet"
 						bind:value={text}
+						oninput={handleInput}
 						rows="7"
 						maxlength="1000"
 						placeholder="Enter an English tweet..."
