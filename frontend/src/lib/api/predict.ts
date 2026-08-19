@@ -6,7 +6,18 @@ export type PredictionResult = {
 	threshold: number;
 };
 
-export async function predictTweet(text: string): Promise<PredictionResult> {
+export class PredictionApiError extends Error {
+	status: number;
+
+	constructor(message: string, status: number) {
+		super(message);
+
+		this.name = 'PredictionApiError';
+		this.status = status;
+	}
+}
+
+export async function predictTweet(text: string, signal?: AbortSignal): Promise<PredictionResult> {
 	const response = await fetch(`${PUBLIC_API_BASE_URL}/api/v1/predict`, {
 		method: 'POST',
 		headers: {
@@ -14,12 +25,25 @@ export async function predictTweet(text: string): Promise<PredictionResult> {
 		},
 		body: JSON.stringify({
 			text
-		})
+		}),
+		signal
 	});
 
 	if (!response.ok) {
-		throw new Error(`Prediction failed: ${response.status}`);
+		throw new PredictionApiError('Prediction request failed.', response.status);
 	}
 
-	return await response.json();
+	const data: unknown = await response.json();
+
+	if (
+		typeof data !== 'object' ||
+		data === null ||
+		!('prediction' in data) ||
+		!('probability' in data) ||
+		!('threshold' in data)
+	) {
+		throw new Error('Invalid API response.');
+	}
+
+	return data as PredictionResult;
 }
