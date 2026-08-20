@@ -38,12 +38,12 @@ class ModelService:
 
         self.models = []
 
-        for fold_number in range(
-            1,
-            6,
-        ):
-            model_path = self.model_root / f"fold_{fold_number}"
+        model_paths = sorted(self.model_root.glob("fold_*"))
 
+        if not model_paths:
+            raise RuntimeError("No fold models were found.")
+
+        for model_path in model_paths:
             model = AutoModelForSequenceClassification.from_pretrained(model_path)
 
             model.to(self.device)
@@ -51,6 +51,9 @@ class ModelService:
             model.eval()
 
             self.models.append(model)
+
+        if len(self.models) != 5:
+            raise RuntimeError(f"Expected 5 fold models, but found {len(self.models)}.")
 
     def predict(
         self,
