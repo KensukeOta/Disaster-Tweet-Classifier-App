@@ -1,2 +1,61 @@
+# ==============================
+# macOS
+# ==============================
+
+.DS_Store
+
+
+# ==============================
+# Environment variables
+# ==============================
+
+.env
+.env.*
+!.env.example
+
+
+# ==============================
+# Python
+# ==============================
+
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+.venv/
+venv/
+
+.pytest_cache/
+.ruff_cache/
+
+.coverage
+htmlcov/
+
+
+# ==============================
+# Node / SvelteKit
+# ==============================
+
+node_modules/
+
+.svelte-kit/
+build/
+dist/
+
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+
+# ==============================
 # ML models
+# ==============================
+
 models/
+
+
+# ==============================
+# IDE / Editor
+# ==============================
+
+.vscode/
+.idea/
