@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from pathlib import Path
 
 import torch
@@ -5,6 +6,13 @@ from transformers import (
     AutoModelForSequenceClassification,
     AutoTokenizer,
 )
+
+
+@dataclass(frozen=True)
+class ModelPrediction:
+    prediction: str
+    probability: float
+    threshold: float
 
 
 class ModelService:
@@ -47,7 +55,7 @@ class ModelService:
     def predict(
         self,
         text: str,
-    ) -> dict[str, float | str]:
+    ) -> ModelPrediction:
         if self.tokenizer is None or not self.models:
             raise RuntimeError("Model is not loaded.")
 
@@ -85,8 +93,8 @@ class ModelService:
             "disaster" if mean_probability >= self.threshold else "not_disaster"
         )
 
-        return {
-            "prediction": prediction,
-            "probability": mean_probability,
-            "threshold": self.threshold,
-        }
+        return ModelPrediction(
+            prediction=prediction,
+            probability=mean_probability,
+            threshold=self.threshold,
+        )
