@@ -90,14 +90,27 @@ class ModelService:
 
                 probabilities.append(probability)
 
-        mean_probability = sum(probabilities) / len(probabilities)
+        mean_probability = self._mean_probability(probabilities)
 
-        prediction = (
-            "disaster" if mean_probability >= self.threshold else "not_disaster"
-        )
+        prediction = self._classify(mean_probability)
 
         return ModelPrediction(
             prediction=prediction,
             probability=mean_probability,
             threshold=self.threshold,
         )
+
+    def _classify(
+        self,
+        probability: float,
+    ) -> str:
+        return "disaster" if probability >= self.threshold else "not_disaster"
+
+    @staticmethod
+    def _mean_probability(
+        probabilities: list[float],
+    ) -> float:
+        if not probabilities:
+            raise ValueError("probabilities must not be empty.")
+
+        return sum(probabilities) / len(probabilities)
