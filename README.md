@@ -6,7 +6,15 @@ Kaggleの「Natural Language Processing with Disaster Tweets」に取り組み�
 
 ## Demo
 
-> デプロイ後にURLを追加予定
+https://disaster-tweet-classifier-app.vercel.app
+
+### Disaster
+
+![Disaster prediction](docs/images/disaster-prediction.png)
+
+### Not Disaster
+
+![Not disaster prediction](docs/images/not-disaster-prediction.png)
 
 ## Features
 
